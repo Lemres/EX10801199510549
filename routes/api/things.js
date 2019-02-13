@@ -44,6 +44,35 @@ router.post('/new', function(req, res, next){
   });
 });//Nuevo
 
+
+router.put('/modify/correo', function(req, res, next){
+  var _correo = req.params.correo;
+  var _infoUpd = req.body;
+  var _mailUpdated = null;
+  var newData = data.map(
+    function(doc, i){
+      if (doc._correo == _Correo){
+        _Correo = Object.assign(
+          {},
+          doc,
+          {"done":true},
+          _Correo
+          );
+        return _Correo;
+      }
+      return doc;
+    }
+  );// end map
+  data = newData;
+  fileModel.write(data, function (err) {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ 'error': 'Error al Guardar Data' });
+    }
+    return res.status(200).json(_Correo);
+  });
+});// Cambiar Correo
+
 router.delete('/delete/:empresa', function(req, res, next){
   var _Correo = req.params.Correo;
   var newData = data.filter(
