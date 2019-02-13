@@ -44,4 +44,32 @@ router.post('/new', function(req, res, next){
   });
 });//Nuevo
 
+router.delete('/delete/:empresa', function(req, res, next){
+  var _Correo = req.params.Correo;
+  var newData = data.filter(
+    function (doc, i) {
+      if (doc._Correo == _Correo) {
+        return false;
+      }
+      return true;
+    }
+  );
+  data = newData;
+  fileModel.write(data, function (err) {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ 'error': 'Error al Guardar Data' });
+    }
+    return res.status(200).json({"delete": _Correo});
+  });
+}); // Borrar
+
+fileModel.read(function(err , filedata){
+  if(err){
+    console.log(err);
+  } else{
+    data = JSON.parse(filedata);
+  }
+});
+
 module.exports = router;
