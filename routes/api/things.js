@@ -29,4 +29,19 @@ router.get('/', function( req, res, next) {
   }
 });//Obtener
 
+router.post('/new', function(req, res, next){
+  var info = Object.assign({} , cosas, req.body);
+  if(!data){
+    data = [];
+  }
+  data.push(info);
+  fileModel.write(data, function(err){
+    if(err){
+      console.log(err);
+      return res.status(500).json({ 'error': 'Error al Obtener Data' });
+    }
+    return res.status(200).json(_thingsData);
+  });
+});//Nuevo
+
 module.exports = router;
